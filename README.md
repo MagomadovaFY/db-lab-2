@@ -38,5 +38,25 @@ LEFT JOIN sales s ON c.customer_id = s.customer_id
 WHERE s.sales_transaction_date IS NULL;
 
 ```
-### Пояснение:
+**Пояснение:**
 LEFT JOIN возвращает всех клиентов, даже если у них нет продаж. Проверка на NULL в поле из sales означает, что записей не найдено.
+```
+```
+### Задача 3. Преобразование данных
+**Условие:**
+Создать категорию длительности найма продавца: Junior (< 2 лет), Senior (≥ 2 лет).
+
+**SQL-запрос:**
+```sql
+SELECT
+    first_name,
+    last_name,
+    hire_date,
+    CASE
+        WHEN EXTRACT(YEAR FROM AGE(CURRENT_DATE, hire_date)) < 2 THEN 'Junior'
+        ELSE 'Senior'
+    END AS experience_level
+FROM salespeople;
+```
+**Пояснение:**
+AGE(CURRENT_DATE, hire_date) вычисляет интервал между сегодняшней датой и датой найма. EXTRACT(YEAR FROM ...) берёт количество полных лет.
